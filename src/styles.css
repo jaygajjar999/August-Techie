@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+/* .btn btn-success{
+    margin-right: 5px;
+} */
+
+#btn1{
+    margin-right: 5px;
+}
+
+#btn2{
+    margin-left: 5px;
+}
