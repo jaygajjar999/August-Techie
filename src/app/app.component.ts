@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
 
     // Trigger change detection to update the view
     // this.cdr.detectChanges();
-     // Reload the page to reflect changes
+     // Reload the page to reflect changes this is optonal method also work
     // window.location.reload();
     this.refreshData();
   }
