@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -6,28 +5,53 @@ import { ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-// import { SharedModule } from './shared/shared.module'; 
-
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatTableModule, MatIconModule, MatButtonModule, FormsModule, CommonModule],
+  imports: [
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    FormsModule,
+    CommonModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   title = 'Table';
-  displayedColumns: string[] = ['id', 'Fullname', 'Contactnumber', 'Email', 'Join_Date', 'Last_updated_Date', 'Action'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = [
+    'id',
+    'fullName',
+    'contactNumber',
+    'email',
+    'joinDate',
+    'lastUpdatedDate',
+    'action',
+  ];
+
+  dataSource: UserData[] = [];
   dialog = inject(MatDialog);
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnInit() {
-    const savedData: PeriodicElement[] = JSON.parse(localStorage.getItem('EmpData') || '[]');
-    this.dataSource = savedData.length > 0 ? savedData : ELEMENT_DATA;
+    const savedData: UserData[] = JSON.parse(localStorage.getItem('EmpData') || '[]');
+
+    if (savedData.length > 0) {
+      console.log('Loaded saved data from localStorage:', savedData);
+      this.dataSource = savedData;
+    } else {
+      console.log('Using default USER_DATA');
+      this.dataSource = USER_DATA;
+    }
+
+    console.log('dataSource:', this.dataSource);
   }
 
   onSave(currentId: number) {
@@ -35,30 +59,40 @@ export class AppComponent implements OnInit {
     if (matchedRow) {
       console.log('Opening dialog with rowData:', matchedRow);
       const dialogRef = this.dialog.open(SaveConfirmationDialogComponent, {
-        data: matchedRow
+        data: { ...matchedRow },
       });
 
-      dialogRef.afterClosed().subscribe((confirmed) => {
-        if (confirmed) {
-          this.saveRowData(matchedRow);
+      dialogRef.afterClosed().subscribe((updatedRow) => {
+        if (updatedRow) {
+          this.saveRowData(updatedRow);
         } else {
           console.log('Save operation cancelled');
         }
       });
     }
   }
+ refreshData() {
+  this.dataSource = JSON.parse(localStorage.getItem('EmpData') || '[]');
+  this.cdr.detectChanges();
+}
 
-  saveRowData(row: PeriodicElement) {
-    let savedData: PeriodicElement[] = JSON.parse(localStorage.getItem('EmpData') || '[]');
-    const index = savedData.findIndex((item) => item.id === row.id);
+  saveRowData(row: UserData) {
+    const index = this.dataSource.findIndex((item) => item.id === row.id);
     if (index !== -1) {
-      savedData[index] = row;
-    } else {
-      savedData.push(row);
+      this.dataSource[index] = { ...row }; // Update the specific row
     }
-    localStorage.setItem('EmpData', JSON.stringify(savedData));
-    this.dataSource = [...savedData];
-    console.log('Saved Row Data:', row);
+
+    // Save the entire dataSource to localStorage
+    localStorage.setItem('EmpData', JSON.stringify(this.dataSource));
+
+    console.log('Updated dataSource:', this.dataSource);
+    console.log('Saved data to localStorage:', localStorage.getItem('EmpData'));
+
+    // Trigger change detection to update the view
+    // this.cdr.detectChanges();
+     // Reload the page to reflect changes
+    // window.location.reload();
+    this.refreshData();
   }
 
   onCancel() {
@@ -71,37 +105,48 @@ export class AppComponent implements OnInit {
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <h1 mat-dialog-title>Confirm Save</h1>
-    <div mat-dialog-content>
-      Are you sure you want to save this Data?
-      <div *ngIf="rowData">
-      
-        <p><strong>Full Name:</strong> <input type="text" [(ngModel)]="rowData.Fullname"></p>
-        <p><strong>Contact Number:</strong> <input type="text" [(ngModel)]="rowData.Contactnumber"></p>
-        <p><strong>Email:</strong> <input type="email" [(ngModel)]="rowData.Email"></p>
-        <p><strong>Join Date:</strong> <input type="date" [(ngModel)]="rowData.Join_Date" [value]="parseDate(rowData.Join_Date)"></p>
-        <p><strong>Last Updated Date:</strong> <input type="date" [(ngModel)]="rowData.Last_updated_Date" [value]="parseDate(rowData.Last_updated_Date)"></p>
+    <h1 mat-dialog-title class="dialog-header">Confirm Save</h1>
+    <div mat-dialog-content class="dialog-content">
+      <strong>Are you sure you want to save this Data?</strong>
+      <div *ngIf="rowData" class="dialog-form-container">
+        <p>
+          <strong>Full Name:</strong>
+          <input type="text" [(ngModel)]="rowData.fullName" />
+        </p>
+        <p>
+          <strong>Contact Number:</strong>
+          <input type="text" [(ngModel)]="rowData.contactNumber" />
+        </p>
+        <p>
+          <strong>Email:</strong>
+          <input type="email" [(ngModel)]="rowData.email" />
+        </p>
+        <p>
+          <strong>Join Date:</strong>
+          <input type="date" [(ngModel)]="rowData.joinDate" />
+        </p>
+        <p>
+          <strong>Last Updated Date:</strong>
+          <input type="date" [(ngModel)]="rowData.lastUpdatedDate" />
+        </p>
       </div>
     </div>
-    <div mat-dialog-actions>
-      <button mat-button (click)="onCancel()">Cancel</button>
-      <button mat-button color="primary" (click)="onConfirm()">Save</button>
+    <div mat-dialog-actions class="dialog-actions">
+      <button mat-button (click)="onCancel()" class="dialog-button-cancel">Cancel</button>
+      <button mat-button color="primary" (click) ="onConfirm()" class="dialog-button-save">Save</button>
     </div>
   `,
 })
 export class SaveConfirmationDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<SaveConfirmationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public rowData: PeriodicElement
-  ) {console.log('rowData inside dialog:', this.rowData);}
-
-  parseDate(dateStr: string): string {
-    const date = new Date(dateStr);
-    return date.toISOString().split('T')[0]; // Format as 'yyyy-mm-dd'
+    @Inject(MAT_DIALOG_DATA) public rowData: UserData
+  ) {
+    console.log('Row Data inside Dialog:', this.rowData);
   }
 
   onConfirm() {
-    this.dialogRef.close(true);
+    this.dialogRef.close(this.rowData);
   }
 
   onCancel() {
@@ -109,18 +154,46 @@ export class SaveConfirmationDialogComponent {
   }
 }
 
-export interface PeriodicElement {
+export interface UserData {
   id: number;
-  Fullname: string;
-  Contactnumber: number;
-  Email: string;
-  Join_Date: string;
-  Last_updated_Date: string;
+  fullName: string;
+  contactNumber: number;
+  email: string;
+  joinDate: string;
+  lastUpdatedDate: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { id: 1, Fullname: 'jay suthar', Contactnumber: 123456, Email: 'jay@gmail.com', Join_Date: '14 Dec 2020', Last_updated_Date: '16 Mar 2023' },
-  { id: 2, Fullname: 'ajay patel', Contactnumber: 123456, Email: 'ajay@gmail.com', Join_Date: '10 Feb 2014', Last_updated_Date: '1 Jul 2024' },
-  { id: 3, Fullname: 'om panchal', Contactnumber: 123456, Email: 'om@gmail.com', Join_Date: '5 Jan 2015', Last_updated_Date: '16 Apr 2018' },
-  { id: 4, Fullname: 'abhay solanki', Contactnumber: 123456, Email: 'abhay@gmail.com', Join_Date: '1 Jun 2018', Last_updated_Date: '20 Sep 2021' },
+const USER_DATA: UserData[] = [
+  {
+    id: 1,
+    fullName: 'jay suthar',
+    contactNumber: 123456,
+    email: 'jay@gmail.com',
+    joinDate: '2020-10-14',
+    lastUpdatedDate: '2023-03-16',
+  },
+  {
+    id: 2,
+    fullName: 'ajay patel',
+    contactNumber: 123456,
+    email: 'ajay@gmail.com',
+    joinDate: '2014-02-10',
+    lastUpdatedDate: '2024-07-01',
+  },
+  {
+    id: 3,
+    fullName: 'om panchal',
+    contactNumber: 123456,
+    email: 'om@gmail.com',
+    joinDate: '2015-01-05',
+    lastUpdatedDate: '2018-04-16',
+  },
+  {
+    id: 4,
+    fullName: 'abhay solanki',
+    contactNumber: 123456,
+    email: 'abhay@gmail.com',
+    joinDate: '2018-10-01',
+    lastUpdatedDate: '2021-09-20',
+  },
 ];

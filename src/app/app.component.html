@@ -1,51 +1,48 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  <!-- Id Column -->
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef>Id</th>
-    <td mat-cell *matCellDef="let element">{{ element.id}}</td>
-  </ng-container>
+<div class="container">
+  <h1 class="title">Employee Data</h1>
 
-  <!-- Fullname Column -->
-  <ng-container matColumnDef="Fullname">
-    <th mat-header-cell *matHeaderCellDef>Full Name</th>
-    <td mat-cell *matCellDef="let element">{{ element.Fullname }}</td>
-  </ng-container>
+  <!-- Table for displaying data -->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
 
-  <!-- Contact Number Column -->
-  <ng-container matColumnDef="Contactnumber">
-    <th mat-header-cell *matHeaderCellDef>Contact Number</th>
-    <td mat-cell *matCellDef="let element">{{ element.Contactnumber }}</td>
-  </ng-container>
+    <ng-container matColumnDef="fullName">
+      <th mat-header-cell *matHeaderCellDef> Full Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+    </ng-container>
 
-  <!-- Email Column -->
-  <ng-container matColumnDef="Email">
-    <th mat-header-cell *matHeaderCellDef>Email</th>
-    <td mat-cell *matCellDef="let element">{{ element.Email }}</td>
-  </ng-container>
+    <ng-container matColumnDef="contactNumber">
+      <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+      <td mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
+    </ng-container>
 
-  <!-- Join Date Column -->
-  <ng-container matColumnDef="Join_Date">
-    <th mat-header-cell *matHeaderCellDef>Join Date</th>
-    <td mat-cell *matCellDef="let element">{{ element.Join_Date }}</td>
-  </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
 
-  <!-- Last Updated Date Column -->
-  <ng-container matColumnDef="Last_updated_Date">
-    <th mat-header-cell *matHeaderCellDef>Last Updated Date</th>
-    <td mat-cell *matCellDef="let element">{{ element.Last_updated_Date }}</td>
-  </ng-container>
+    <ng-container matColumnDef="joinDate">
+      <th mat-header-cell *matHeaderCellDef> Join Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.joinDate}} </td>
+    </ng-container>
 
-  <!-- Action Column with Pencil Icon -->
-  <ng-container matColumnDef="Action">
-    <th mat-header-cell *matHeaderCellDef>Action</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-icon-button (click)="onSave(element.id)">
-        <i class="fa fa-pencil"></i> 
-      </button>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="lastUpdatedDate">
+      <th mat-header-cell *matHeaderCellDef> Last Updated Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.lastUpdatedDate}} </td>
+    </ng-container>
 
-  <!-- Table Header and Rows -->
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="onSave(element.id)">
+          <i class="fa fa-pencil"></i> 
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

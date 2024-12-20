@@ -1,12 +1,140 @@
-/* You can add global styles to this file, and also import other style files */
-/* .btn btn-success{
-    margin-right: 5px;
-} */
-
-#btn1{
-    margin-right: 5px;
+/* Classic table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f9f9f9; 
+  }
+  
+  /* Table header styling */
+  th {
+    background-color: #4caf50; 
+    color: black;
+    padding: 12px;
+    font-size: 1.1rem;
+    text-align: left;
+    font-weight: bold;  
+    border-bottom: 2px solid #ddd; 
+  }
+  
+  /* Table cell styling */
+  td {
+    padding: 12px;
+    border: 1px solid #ddd; 
+    text-align: left;
+  }
+  
+  /* Hover effect for rows */
+  tr:hover {
+    background-color: #f1f1f1; 
+  }
+  
+  /* Action button styling */
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+  background-color: #45a049; 
 }
-
-#btn2{
-    margin-left: 5px;
-}
+  /* Styling for odd rows */
+  tr:nth-child(odd) {
+    background-color: #f2f2f2; 
+  }
+  
+  /* Styling for even rows */
+  tr:nth-child(even) {
+    background-color: #ffffff; 
+  }
+  
+  /* Popup Box */
+  .mat-dialog-container {
+    background-color: #ffcc00; 
+    color: #333; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Dialog Title */
+  h1.mat-dialog-title {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  /* Popup button styling */
+  button.mat-button {
+    background-color: #00796b;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+  }
+  
+  button.mat-button:hover {
+    background-color: #004d40;
+  }
+  
+  /* Dialog Content */
+  .dialog-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .dialog-content p {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .dialog-content input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  
+  /* Dialog Actions */
+  .dialog-actions {
+    display: flex;
+    justify-content: center;
+    padding: 5px 20px;
+    background-color: #fafafa;
+    border-radius: 0 0 4px 4px;
+  }
+  
+  /* Cancel and Save buttons in dialog */
+  .dialog-button-cancel,
+  .dialog-button-save {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .dialog-button-cancel {
+    background-color: #d32929;
+    color: #fff;
+    margin-right: 10px;
+  }
+  
+  .dialog-button-save {
+    background-color: #209324;
+    color: #fff;
+  }
+  
+  .dialog-button-cancel:hover,
+  .dialog-button-save:hover {
+    opacity: 0.9;
+  }
+  
