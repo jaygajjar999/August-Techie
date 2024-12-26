@@ -1,0 +1,95 @@
+<div class="container mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
+  <!-- Title -->
+  <h1 mat-dialog-title
+    class="relative text-5xl font-bold text-white text-center my-4 py-6 px-8 rounded-lg shadow-lg bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700">
+    Employee Data
+  </h1>
+
+  <!-- Table Container -->
+  <div class="overflow-x-auto rounded-lg">
+    <table class="w-full text-base text-left bg-white border border-gray-300 rounded-lg shadow-lg" mat-table
+      [dataSource]="dataSource">
+      <!-- Header Row -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"
+        class="bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 text-white font-bold text-sm uppercase tracking-wide shadow-md">
+      </tr>
+
+      <!-- Column: ID -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef class="p-4 border-b border-gray-300 text-gray-900 ">
+          ID
+        </th>
+        <td mat-cell *matCellDef="let element" class="p-4 border-b border-gray-200 text-gray-700 text-lg font-medium">
+          {{ element.id }}
+        </td>
+      </ng-container>
+
+      <!-- Column: Full Name -->
+      <ng-container matColumnDef="fullName">
+        <th mat-header-cell *matHeaderCellDef class="p-4 border-b border-gray-300 text-gray-900">
+          Full Name
+        </th>
+        <td mat-cell *matCellDef="let element" class="p-4 border-b border-gray-200 text-gray-700 text-lg font-medium">
+          {{ element.fullName }}
+        </td>
+      </ng-container>
+
+      <!-- Column: Contact Number -->
+      <ng-container matColumnDef="contactNumber">
+        <th mat-header-cell *matHeaderCellDef class="p-4 border-b border-gray-300 text-gray-900">
+          Contact Number
+        </th>
+        <td mat-cell *matCellDef="let element" class="p-4 border-b border-gray-200 text-gray-700 text-lg font-medium">
+          {{ element.contactNumber }}
+        </td>
+      </ng-container>
+
+      <!-- Column: Email -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef class="p-4 border-b border-gray-300 text-gray-900 ">
+          Email
+        </th>
+        <td mat-cell *matCellDef="let element" class="p-4 border-b border-gray-200 text-gray-700 text-lg font-medium">
+          {{ element.email }}
+        </td>
+      </ng-container>
+
+      <!-- Column: Join Date -->
+      <ng-container matColumnDef="joinDate">
+        <th mat-header-cell *matHeaderCellDef class="p-4 border-b border-gray-300 text-gray-900">
+          Join Date
+        </th>
+        <td mat-cell *matCellDef="let element" class="p-4 border-b border-gray-200 text-gray-700 text-lg font-medium">
+          {{ element.joinDate }}
+        </td>
+      </ng-container>
+
+      <!-- Column: Last Updated Date -->
+      <ng-container matColumnDef="lastUpdatedDate">
+        <th mat-header-cell *matHeaderCellDef class="p-4 border-b border-gray-300 text-gray-900">
+          Last Updated Date
+        </th>
+        <td mat-cell *matCellDef="let element" class="p-4 border-b border-gray-200 text-gray-700 text-lg font-medium">
+          {{ element.lastUpdatedDate }}
+        </td>
+      </ng-container>
+
+      <!-- Column: Action -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="p-4 border-b border-gray-300 text-center text-gray-900">
+          Action
+        </th>
+        <td mat-cell *matCellDef="let element" class="p-4 border-b border-gray-200 text-center">
+          <button mat-icon-button class="hover:bg-teal-400 rounded-md py-2 transition-colors duration-300 ease-in-out"
+            (click)="onSave(element.id)">
+            <i class="fa fa-pencil"></i>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Data Row -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"
+        class="transition-all hover:bg-gray-100 odd:bg-gray-50 even:bg-white"></tr>
+    </table>
+  </div>
+</div>

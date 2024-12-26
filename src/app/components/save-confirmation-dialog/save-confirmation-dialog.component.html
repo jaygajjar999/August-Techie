@@ -1,0 +1,48 @@
+<div mat-dialog-content class=" px-6 py-4 bg-white rounded-lg shadow">
+  <h1 mat-dialog-title
+    class="relative text-2xl font-bold !text-white text-center my-2 py-4 px-6 rounded-lg shadow-md bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700">
+    Confirm Save
+  </h1>
+  <strong class="block !my-4 text-gray-700">
+    Are you sure you want to save this data?
+  </strong>
+
+  <div *ngIf="rowData" class="space-y-4">
+    <p>
+      <label for="fullName" class="block text-gray-700 font-medium">Full Name:</label>
+      <input id="fullName" type="text" [(ngModel)]="rowData.fullName"
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+    </p>
+    <p>
+      <label for="contactNumber" class="block text-gray-700 font-medium">Contact Number:</label>
+      <input id="contactNumber" type="text" [(ngModel)]="rowData.contactNumber"
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+    </p>
+    <p>
+      <label for="email" class="block text-gray-700 font-medium">Email:</label>
+      <input id="email" type="email" [(ngModel)]="rowData.email"
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+    </p>
+    <p>
+      <label for="joinDate" class="block text-gray-700 font-medium">Join Date:</label>
+      <input id="joinDate" type="date" [(ngModel)]="rowData.joinDate"
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+    </p>
+    <p>
+      <label for="lastUpdatedDate" class="block text-gray-700 font-medium">Last Updated Date:</label>
+      <input id="lastUpdatedDate" type="date" [(ngModel)]="rowData.lastUpdatedDate"
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+    </p>
+  </div>
+</div>
+
+<div mat-dialog-actions class="px-6 py-4 flex !justify-center space-x-4">
+  <button mat-button (click)="onCancel()"
+    class="!text-white border !bg-red-600  py-2 px-4 rounded hover:bg-red-900 transition">
+    Cancel
+  </button>
+  <button mat-button (click)="onConfirm()"
+    class=" !text-white !bg-blue-600 border py-2 px-4 rounded hover:bg-blue-900 transition">
+    Save
+  </button>
+</div>
